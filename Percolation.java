@@ -23,6 +23,7 @@ public class Percolation {
 		if (!isOpen(row, col)) {
 			int currentKey = key(row, col);
 			
+			// first row is connected to virtual top node
 			if (row == 1) { 
 				modal.union(currentKey, 0);
 			}
@@ -54,6 +55,7 @@ public class Percolation {
 			grid[row-1][col-1] = 1;
 			openSites++;
 			
+			// last row is connected to virtual bottom row
 			if (row == numberOfRows) modal.union(currentKey, totalSites + 1);
 		}
 	}
@@ -63,51 +65,15 @@ public class Percolation {
 		return grid[row-1][col-1] == 1 ? true : false;
 	}
 	
-//	public boolean isOpen(int row, int col) {
-//		validate(row, col);
-//		return grid[row][col] == 1 ? true : false;
-//	}
-	
 	private int key(int row, int col) {
 		return (numberOfRows * (row - 1)) + col;
 	}
-	
-//	private int key(int row, int col) {
-//		return (numberOfRows * row) + col + 1;
-//	}
 	
 	public boolean isFull(int row, int col) {
 		validate(row, col);
 		int currKey = key(row, col);
 		if (isOpen(row, col) && (modal.find(currKey) == modal.find(0))) {
 			return true;
-//			if(row == 1) return true;
-//			
-//			// check left
-//			if (col - 1 > 0 && isOpen(row, col - 1)) {
-//				int leftKey = key(row, col - 1);
-//				if (modal.find(leftKey) == modal.find(0)) return true;
-//			}
-//			
-//			// check down
-//			if (row + 1 <= numberOfRows && isOpen(row + 1, col)) {
-//				int downKey = key(row + 1, col);
-//				if (modal.find(downKey) == modal.find(0)) return true;
-//			}
-//			
-//			// check right
-//			if (col + 1 <= numberOfRows && isOpen(row, col + 1)) {
-//				int rightKey = key(row, col + 1);
-//				if (modal.find(rightKey) == modal.find(0)) return true; 
-//			}
-//			
-//			// check up
-//			if (row - 1 > 0 && isOpen(row - 1, col)) {
-//				int upKey = key(row - 1, col);
-//				if (modal.find(upKey) == modal.find(0)) return true; 
-//			}
-//			
-//			return false;
 		}
 		return false;
 	}
@@ -117,6 +83,7 @@ public class Percolation {
 	}
 	
 	public boolean percolates() {
+		// if virtual top and bottom row are connected then system perculates.
 		return modal.find(0) == modal.find(totalSites+1);
 	}
 	
