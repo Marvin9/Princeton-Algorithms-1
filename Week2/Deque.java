@@ -1,10 +1,10 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class Deque<Type> implements Iterable<Type> {
+public class Deque<Item> implements Iterable<Item> {
 	
 	private class Node {
-		Type value;
+		Item value;
 		Node next;
 	}
 	
@@ -26,7 +26,7 @@ public class Deque<Type> implements Iterable<Type> {
 		return size;
 	}
 	
-	private Node createNode(Type item, Node next) {
+	private Node createNode(Item item, Node next) {
 		Node newNode = new Node();
 		
 		newNode.value = item;
@@ -35,7 +35,7 @@ public class Deque<Type> implements Iterable<Type> {
 		return newNode;
 	}
 	
-	public void addFirst(Type item) {
+	public void addFirst(Item item) {
 		if (item == null) throw new IllegalArgumentException();
 		
 		if (head == null) {
@@ -49,7 +49,7 @@ public class Deque<Type> implements Iterable<Type> {
 		size++;
 	}
 	
-	public void addLast(Type item) {
+	public void addLast(Item item) {
 		if (item == null) throw new IllegalArgumentException();
 		
 		if (head == null) {
@@ -70,10 +70,10 @@ public class Deque<Type> implements Iterable<Type> {
 		size = 0;
 	}
 	
-	public Type removeFirst() {
+	public Item removeFirst() {
 		if (isEmpty()) throw new NoSuchElementException();
 		
-		Type tmp = head.value;
+		Item tmp = head.value;
 		
 		if (head == tail) {
 			resetQueue();
@@ -87,11 +87,11 @@ public class Deque<Type> implements Iterable<Type> {
 		return tmp;
 	}
 	
-	public Type removeLast() {
+	public Item removeLast() {
 		if (isEmpty()) throw new NoSuchElementException();
 		
 		if (head == tail) {
-			Type tmp = head.value;
+			Item tmp = head.value;
 			
 			resetQueue();
 			
@@ -102,7 +102,7 @@ public class Deque<Type> implements Iterable<Type> {
 		
 		while (itr.next.next != null) itr = itr.next;
 		
-		Type tmp = itr.next.value;
+		Item tmp = itr.next.value;
 		
 		itr.next = null;
 		tail = itr;
@@ -111,18 +111,18 @@ public class Deque<Type> implements Iterable<Type> {
 		return tmp;
 	}
 	
-	public Iterator<Type> iterator() { return new QueueIterator(); }
+	public Iterator<Item> iterator() { return new QueueIterator(); }
 	
-	private class QueueIterator implements Iterator<Type> {
+	private class QueueIterator implements Iterator<Item> {
 		
 		private Node current = head;
 		
 		public boolean hasNext() { return current != null; }
 		
-		public Type next() {
+		public Item next() {
 			if (current == null) throw new NoSuchElementException();
 			
-			Type tmp = current.value;
+			Item tmp = current.value;
 			current = current.next;
 			
 			return tmp;
@@ -135,9 +135,9 @@ public class Deque<Type> implements Iterable<Type> {
 	
 	public static void main(String[] args) {
 		Deque<String> k = new Deque<String>();
-		k.addFirst("first");
-		k.addLast("second");
-		k.addFirst("third in sequence but first in queue");
+		k.addFirst("hello");
+		k.addLast("bye");
+		k.addFirst("yesyyy");
 		Iterator<String> kit = k.iterator();
 		while (kit.hasNext()) {
 			System.out.println(kit.next());

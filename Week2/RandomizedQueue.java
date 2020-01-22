@@ -2,12 +2,12 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import edu.princeton.cs.algs4.StdRandom;
 
-public class RandomizedQueue<Type> implements Iterable<Type> {
-	private Type[] queue;
+public class RandomizedQueue<Item> implements Iterable<Item> {
+	private Item[] queue;
 	private int elements; // element will be placed at queue[elements]
 	
 	public RandomizedQueue() {
-		queue = (Type[]) new Object[2];
+		queue = (Item[]) new Object[2];
 		elements = 0;
 	}
 	
@@ -19,7 +19,7 @@ public class RandomizedQueue<Type> implements Iterable<Type> {
 		return elements;
 	}
 	
-	public void enqueue(Type item) {
+	public void enqueue(Item item) {
 		if (item == null) throw new IllegalArgumentException();
 		
 		if (elements == queue.length) queue = resize(queue.length * 2);
@@ -28,11 +28,11 @@ public class RandomizedQueue<Type> implements Iterable<Type> {
 		elements++;
 	}
 	
-	public Type dequeue() {
+	public Item dequeue() {
 		if (elements == 0) throw new NoSuchElementException();
 		
 		int random = generateRandom();
-		Type tmpRandom = queue[random];
+		Item tmpRandom = queue[random];
 		
 		queue[random] = queue[elements - 1];
 		queue[elements - 1] = null;
@@ -43,8 +43,8 @@ public class RandomizedQueue<Type> implements Iterable<Type> {
 		return tmpRandom;
 	}
 	
-	private Type[] resize(int len) {
-		Type[] resizedQueue = (Type[]) new Object[len];
+	private Item[] resize(int len) {
+		Item[] resizedQueue = (Item[]) new Object[len];
 		
 		for (int i = 0; i < elements; i++) {
 			resizedQueue[i] = queue[i];
@@ -53,19 +53,19 @@ public class RandomizedQueue<Type> implements Iterable<Type> {
 		return resizedQueue;
 	}
 	
-	public Iterator<Type> iterator() { return new RQIterator(); }
+	public Iterator<Item> iterator() { return new RQIterator(); }
 	
-	private class RQIterator implements Iterator<Type> {
+	private class RQIterator implements Iterator<Item> {
 		private int current = 0;
 		
 		public boolean hasNext() {
 			return current < elements;
 		}
 		
-		public Type next() {
+		public Item next() {
 			if (!hasNext()) throw new NoSuchElementException();
 			
-			Type tmp = queue[current];
+			Item tmp = queue[current];
 			current++;
 			
 			return tmp;
@@ -80,7 +80,7 @@ public class RandomizedQueue<Type> implements Iterable<Type> {
 		return StdRandom.uniform(0, elements);
 	}
 	
-	public Type sample() {
+	public Item sample() {
 		if (elements == 0) throw new NoSuchElementException();
 		
 		return queue[generateRandom()];
